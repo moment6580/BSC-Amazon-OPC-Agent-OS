@@ -1,0 +1,54 @@
+﻿{
+    "sorftime_mcp":  {
+                         "enabled":  false,
+                         "endpoint":  "https://mcp.sorftime.com",
+                         "api_key":  "",
+                         "description":  "Sorftime MCP"
+                     },
+    "sif_mcp":  {
+                    "enabled":  true,
+                    "endpoint":  "https://mcp.sif.com/mcp",
+                    "api_key":  "",
+                    "description":  "Sif MCP"
+                },
+    "chatgpt":  {
+                    "email":  "",
+                    "password":  "",
+                    "model":  "gpt-image-2",
+                    "session_note":  ""
+                },
+    "paths":  {
+                  "input_dir":  "./input",
+                  "output_dir":  "./output",
+                  "prompts_dir":  "./prompts",
+                  "logs_dir":  "./logs",
+                  "wiki_dir":  "./Wiki",
+                  "rufus_cosmo_dir":  "./Wiki/06-Rufus-Cosmo"
+              },
+    "apimart":  {
+                    "api_key":  "",
+                    "base_url":  "https://api.apimart.ai",
+                    "model":  "gpt-image-2-official",
+                    "resolution":  "1k",
+                    "quality":  "high",
+                    "output_format":  "png",
+                    "description":  "APIMart API"
+                },
+    "image_generation":  {
+                             "default_model":  "gpt-image-2-official",
+                             "provider":  "apimart",
+                             "retry_limit":  3,
+                             "delay_between_requests":  3,
+                             "poll_interval_seconds":  5,
+                             "task_timeout_seconds":  300,
+                             "output_formats":  [
+                                                    "png",
+                                                    "psd"
+                                                ]
+                         },
+    "sellersprite_mcp":  {
+                             "endpoint":  "https://mcp.sellersprite.com/mcp",
+                             "api_key":  "",
+                             "enabled":  true
+                         }
+}
