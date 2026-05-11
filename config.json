@@ -8,7 +8,7 @@
     "base_url": "https://api.apimart.ai"
   },
   "sorftime_mcp": {
-    "endpoint": "",
+    "endpoint": "https://mcp.sorftime.com",
     "api_key": "",
     "enabled": false
   },
