@@ -1,4 +1,4 @@
-# BSC OPC Agent OS V2.0
+# BSC OPC Agent OS 
 
 Amazon 产品运营 AI 助手 —— GPT-Image-2 图片生成 + COSMO/Rufus 算法 Listing 优化，一站式 Amazon 运营工具。
 
