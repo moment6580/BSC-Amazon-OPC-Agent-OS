@@ -6,28 +6,38 @@
     "model": "gpt-image-2-official",
     "output_format": "png",
     "base_url": "https://api.apimart.ai",
-    "enabled": true
+    "enabled": true,
+    "rate_limit": 10,
+    "rate_window": 60
   },
   "sorftime_mcp": {
     "endpoint": "https://mcp.sorftime.com",
     "api_key": "",
-    "enabled": true
+    "enabled": true,
+    "rate_limit": 200,
+    "rate_window": 60
   },
   "sif_mcp": {
     "endpoint": "https://mcp.sif.com/mcp",
     "api_key": "",
-    "enabled": true
+    "enabled": true,
+    "rate_limit": 30,
+    "rate_window": 60
   },
   "sellersprite_mcp": {
     "endpoint": "https://mcp.sellersprite.com/mcp",
     "api_key": "",
-    "enabled": true
+    "enabled": true,
+    "rate_limit": 40,
+    "rate_window": 60
   },
   "gemini": {
     "base_url": "https://api.apimart.ai",
     "model": "gemini-3-pro-image-preview",
     "resolution": "1K",
     "enabled": false,
-    "api_key": ""
+    "api_key": "",
+    "rate_limit": 10,
+    "rate_window": 60
   }
 }

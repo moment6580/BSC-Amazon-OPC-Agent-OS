@@ -47,7 +47,7 @@ async function loadLicenseStatus() {
   } catch(e) {}
 }
 // ── Version Check ──
-var CURRENT_VERSION = 'v3.0';
+var CURRENT_VERSION = 'v3.1';
 var GITHUB_REPO = 'luotwo/BSC-Amazon-OPC-Agent-OS';
 var _otaDownloadUrl = '';
 var _otaAssetSize = 0;
@@ -154,9 +154,13 @@ async function checkFirstRunSetup() {
     var gm = cfg.gemini || {};
     var am = cfg.apimart || {};
     document.getElementById('tglGemini').checked = !!gm.enabled;
-    document.getElementById('lblGemini').textContent = gm.enabled ? '开启' : '关闭';
+
+  document.getElementById('cfgGeminiRateLimit').value = gm.rate_limit||10;
+  document.getElementById('cfgGeminiRateWindow').value = gm.rate_window||60;    document.getElementById('lblGemini').textContent = gm.enabled ? '开启' : '关闭';
     document.getElementById('tglApimart').checked = am.enabled !== false;
-    document.getElementById('lblApimart').textContent = (am.enabled !== false) ? '开启' : '关闭';
+
+  document.getElementById('cfgApimartRateLimit').value = am.rate_limit||10;
+  document.getElementById('cfgApimartRateWindow').value = am.rate_window||60;    document.getElementById('lblApimart').textContent = (am.enabled !== false) ? '开启' : '关闭';
     var missing = [];
     // Redacted values (containing ***) mean it IS configured — just hidden for security
     var hasApimart = cfg.apimart && cfg.apimart.api_key && cfg.apimart.api_key.length > 0;
@@ -314,16 +318,22 @@ function openSettings() {
     var sf = cfg.sif_mcp||{};
     document.getElementById('cfgSifEndpoint').value = sf.endpoint||'';
     document.getElementById('cfgSifKey').value = sf.api_key||'';
+    document.getElementById('cfgSifRateLimit').value = sf.rate_limit||30;
+    document.getElementById('cfgSifRateWindow').value = sf.rate_window||60;
     var st = cfg.sorftime_mcp||{};
     document.getElementById('cfgSorftimeEndpoint').value = st.endpoint||'';
     document.getElementById('cfgSorftimeKey').value = st.api_key||'';
     document.getElementById('tglSorftime').checked = !!st.enabled;
     document.getElementById('lblSorftime').textContent = st.enabled ? '开启' : '关闭';
+    document.getElementById('cfgSorftimeRateLimit').value = st.rate_limit||200;
+    document.getElementById('cfgSorftimeRateWindow').value = st.rate_window||60;
     var ss = cfg.sellersprite_mcp||{};
     document.getElementById('cfgSellerspriteEndpoint').value = ss.endpoint||'';
     document.getElementById('cfgSellerspriteKey').value = ss.api_key||'';
     document.getElementById('tglSellersprite').checked = !!ss.enabled;
     document.getElementById('lblSellersprite').textContent = ss.enabled ? '开启' : '关闭';
+    document.getElementById('cfgSellerspriteRateLimit').value = ss.rate_limit||40;
+    document.getElementById('cfgSellerspriteRateWindow').value = ss.rate_window||60;
     // Clear test statuses
     document.getElementById('statusApimart').textContent = '';
     document.getElementById('statusSif').textContent = '';
@@ -348,11 +358,11 @@ function saveSettings() {
   }
   // Build data object, omitting redacted/unmodified keys
   var data = {
-    apimart: {base_url:document.getElementById('cfgApimartUrl').value, model:document.getElementById('cfgApimartModel').value, resolution:document.getElementById('cfgApimartResolution').value, quality:document.getElementById('cfgApimartQuality').value, enabled:!!document.getElementById('tglApimart').checked},
-    gemini: {base_url:document.getElementById('cfgGeminiUrl').value, model:document.getElementById('cfgGeminiModel').value, resolution:document.getElementById('cfgGeminiResolution').value, enabled:!!document.getElementById('tglGemini').checked},
-    sif_mcp: {endpoint: sifEndpoint, enabled: !!sifEndpoint},
-    sorftime_mcp: {endpoint:document.getElementById('cfgSorftimeEndpoint').value, enabled:!!document.getElementById('tglSorftime').checked},
-    sellersprite_mcp: {endpoint:document.getElementById('cfgSellerspriteEndpoint').value, enabled:!!document.getElementById('tglSellersprite').checked}
+    apimart: {base_url:document.getElementById('cfgApimartUrl').value, model:document.getElementById('cfgApimartModel').value, resolution:document.getElementById('cfgApimartResolution').value, quality:document.getElementById('cfgApimartQuality').value, rate_limit:parseInt(document.getElementById('cfgApimartRateLimit').value)||10, rate_window:parseInt(document.getElementById('cfgApimartRateWindow').value)||60,enabled:!!document.getElementById('tglApimart').checked},
+    gemini: {base_url:document.getElementById('cfgGeminiUrl').value, model:document.getElementById('cfgGeminiModel').value, resolution:document.getElementById('cfgGeminiResolution').value, rate_limit:parseInt(document.getElementById('cfgGeminiRateLimit').value)||10, rate_window:parseInt(document.getElementById('cfgGeminiRateWindow').value)||60,enabled:!!document.getElementById('tglGemini').checked},
+    sif_mcp: {endpoint: sifEndpoint, enabled: !!sifEndpoint, rate_limit:parseInt(document.getElementById('cfgSifRateLimit').value)||30, rate_window:parseInt(document.getElementById('cfgSifRateWindow').value)||60},
+    sorftime_mcp: {endpoint:document.getElementById('cfgSorftimeEndpoint').value, rate_limit:parseInt(document.getElementById('cfgSorftimeRateLimit').value)||200, rate_window:parseInt(document.getElementById('cfgSorftimeRateWindow').value)||60,enabled:!!document.getElementById('tglSorftime').checked},
+    sellersprite_mcp: {endpoint:document.getElementById('cfgSellerspriteEndpoint').value, rate_limit:parseInt(document.getElementById('cfgSellerspriteRateLimit').value)||40, rate_window:parseInt(document.getElementById('cfgSellerspriteRateWindow').value)||60,enabled:!!document.getElementById('tglSellersprite').checked}
   };
   // Only include keys that user actually changed (not redacted)
   var ak = _saveKey(document.getElementById('cfgApimartKey').value);
